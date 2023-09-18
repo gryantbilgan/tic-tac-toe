@@ -39,7 +39,6 @@ function handleResetButton () {
     gameIsActive = true;
     elapsedTurns = 0;
     messageAreaParagraph.innerText = "Player X, make your move.";
-    startButton.disabled = false;
     let squares = document.getElementsByClassName("square");
     for (let i = 0; i < squares.length; i++) {
         squares[i].innerText = "";
