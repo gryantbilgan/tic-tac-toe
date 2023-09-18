@@ -21,35 +21,35 @@ let elapsedTurns = 0;
 //DOM Selectors
 const gameBoardDiv = document.querySelector("#game-board");
 const messageAreaParagraph = document.querySelector("#message-area");
-const startButton = document.querySelector("#start-button");
+// const startButton = document.querySelector("#start-button");
 const resetButton = document.querySelector("#reset-button");
 
 //Functions
-function handleStartButton () {
-    console.log("The start button has been click");
-    startButton.disabled = true;
-    startButton.style.display = "none";
-    gameBoard.innerHTML = "";
-}
+// function handleStartButton () {
+//     console.log("The start button has been click");
+//     startButton.disabled = true;
+//     startButton.style.display = "none";
+//     gameBoard = ["", "", "", "", "", "", "", "", ""];
+// }
 
 function handleResetButton () {
     console.log("The reset button has been clicked");
-    gameBoard = ["", "", "", "", "", "", "", "", "", ];
+    gameBoard = ["", "", "", "", "", "", "", "", ""];
     currentPlayer = "X";
     gameIsActive = true;
     elapsedTurns = 0;
     messageAreaParagraph.innerText = "Player X, make your move.";
     startButton.disabled = false;
-    const squares = document.querySelector(".square");
+    let squares = document.getElementsByClassName("square");
     for (let i = 0; i < squares.length; i++) {
         squares[i].innerText = "";
     }
 }
-
+//Check win 
 function checkWin () {
     for (let i = 0; i < winningCombos.length; i++) {
         let foundWinner = true;
-        for (let j = 0; j < winningCombos.lenght[i]; j++) {
+        for (let j = 0; j < winningCombos[i].length; j++) {
             console.log(winningCombos[i][j]);
             const gameBoardIndex = winningCombos[i][j];
             if (gameBoard[gameBoardIndex] !== currentPlayer) {
@@ -78,7 +78,7 @@ function handleGameBoardClick (event) {
             gameIsActive = false;
             messageAreaParagraph.innerText = `${currentPlayer} has won!`
         } else {
-            currentPlayer = currentPlayer === "X" ? "O" : "X"
+            currentPlayer === "X" ? currentPlayer = "O" : currentPlayer = "X"
             messageAreaParagraph.innerText = `Player ${currentPlayer}, make your move.`
         }
         console.log(gameBoard);
@@ -89,7 +89,7 @@ function handleGameBoardClick (event) {
 
 //Event listeners
 resetButton.addEventListener("click", handleResetButton);
-startButton.addEventListener("click", handleStartButton);
+// startButton.addEventListener("click", handleStartButton);
 gameBoardDiv.addEventListener("click", handleGameBoardClick);
 
 
