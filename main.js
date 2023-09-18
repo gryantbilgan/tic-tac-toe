@@ -19,23 +19,80 @@ let elapsedTurns = 0;
 
 
 //DOM Selectors
-const gameboardDiv = document.querySelector("#game-board");
+const gameBoardDiv = document.querySelector("#game-board");
 const messageAreaParagraph = document.querySelector("#message-area");
 const startButton = document.querySelector("#start-button");
 const resetButton = document.querySelector("#reset-button");
 
 //Functions
+function handleStartButton () {
+    console.log("The start button has been click");
+    startButton.disabled = true;
+    startButton.style.display = "none";
+    gameBoard.innerHTML = "";
+}
+
 function handleResetButton () {
+    console.log("The reset button has been clicked");
     gameBoard = ["", "", "", "", "", "", "", "", "", ];
     currentPlayer = "X";
     gameIsActive = true;
     elapsedTurns = 0;
     messageAreaParagraph.innerText = "Player X, make your move.";
+    startButton.disabled = false;
     const squares = document.querySelector(".square");
     for (let i = 0; i < squares.length; i++) {
         squares[i].innerText = "";
     }
 }
+
+function checkWin () {
+    for (let i = 0; i < winningCombos.length; i++) {
+        let foundWinner = true;
+        for (let j = 0; j < winningCombos.lenght[i]; j++) {
+            console.log(winningCombos[i][j]);
+            const gameBoardIndex = winningCombos[i][j];
+            if (gameBoard[gameBoardIndex] !== currentPlayer) {
+                foundWinner = false;
+                break
+            }
+        }
+        if (foundWinner) {
+            return true;
+        }
+    }
+    return false;
+}
+
+function handleGameBoardClick (event) {
+    console.log(`The player just clicked on square number ${event.target.id}`);
+    if (gameBoard[event.target.id] === "") {
+        event.target.innerText = currentPlayer;
+        gameBoard[event.target.id] = currentPlayer;
+        elapsedTurns++;
+
+        if (elapsedTurns === 9) {
+            console.log("Cat's game");
+            messageAreaParagraph.innerText = "It's a cat's game! Try again."
+        } else if (checkWin()) {
+            gameIsActive = false;
+            messageAreaParagraph.innerText = `${currentPlayer} has won!`
+        } else {
+            currentPlayer = currentPlayer === "X" ? "O" : "X"
+            messageAreaParagraph.innerText = `Player ${currentPlayer}, make your move.`
+        }
+        console.log(gameBoard);
+    }
+}
+
+
+
+//Event listeners
+resetButton.addEventListener("click", handleResetButton);
+startButton.addEventListener("click", handleStartButton);
+gameBoardDiv.addEventListener("click", handleGameBoardClick);
+
+
 
 // const GAMEBOARD_ID = "game-board";
 // const RESET_BUTTON_ID = "reset-button";
